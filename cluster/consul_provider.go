@@ -154,9 +154,10 @@ func (p *ConsulProvider) onUpdate(index watch.BlockingParamVal, msg any) {
 		if len(entry.Checks) > 0 && entry.Checks.AggregatedStatus() == api.HealthPassing {
 			port := strconv.Itoa(entry.Service.Port)
 			member := &Member{
-				ID:    entry.Service.Meta["name"],
-				Host:  entry.Service.Address + ":" + port,
-				Kinds: entry.Service.Tags,
+				ID:     entry.Service.Meta["name"],
+				Host:   entry.Service.Address + ":" + port,
+				Region: entry.Node.Datacenter,
+				Kinds:  entry.Service.Tags,
 			}
 			members = append(members, member)
 		}
